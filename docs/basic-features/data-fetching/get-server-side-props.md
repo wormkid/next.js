@@ -4,7 +4,7 @@ description: Fetch data on each request with `getServerSideProps`.
 
 # getServerSideProps
 
-If you export a function called `getServerSideProps` (Server-Side Rendering) from a page, Next.js will pre-render this page on each request using the data returned by `getServerSideProps`.
+만약 당신이 `getServerSideProps` (Server-Side Rendering) 라는 함수를 page에서 export 하면, Next.js 가 `getServerSideProps` 에서 리턴되는 데이터를 이용해서 각각의 리퀘스트마다 이 페이지를 pre-render할 것입니다.
 
 ```js
 export async function getServerSideProps(context) {
@@ -14,16 +14,19 @@ export async function getServerSideProps(context) {
 }
 ```
 
-> Note that irrespective of rendering type, any `props` will be passed to the page component and can be viewed on the client-side in the initial HTML. This is to allow the page to be [hydrated](https://react.dev/reference/react-dom/hydrate) correctly. Make sure that you don't pass any sensitive information that shouldn't be available on the client in `props`.
+> 페이지로 전달되는 어떠한 `props` 라도 client-side의 초기 HTML에서 보여질 수 있으니 주의하세요. 이것은 이 페이지가 적절하게 [hydrated](https://react.dev/reference/react-dom/hydrate) 되도록 하기 위한 것입니다. 따라서 `props` 에 민감한 정보가 포함되지 않도록 주의하세요.
 
-## When does getServerSideProps run
+## getServerSideProps 는 언제 실행되는가
 
-`getServerSideProps` only runs on server-side and never runs on the browser. If a page uses `getServerSideProps`, then:
+`getServerSideProps` 는 오직 서버에서만 실행되고 브라우저에서는 실행되지 않습니다. 만약 어느 페이지가 `getServerSideProps` 를 사용하면,:
 
 - When you request this page directly, `getServerSideProps` runs at request time, and this page will be pre-rendered with the returned props
+- 이 페이지를 직접 요청하면, `getServerSideProps` 가 요청시에 실행되고, 이 페이지는 리턴된 props를 이용해 pre-render 될 것입니다.
 - When you request this page on client-side page transitions through [`next/link`](/docs/api-reference/next/link.md) or [`next/router`](/docs/api-reference/next/router.md), Next.js sends an API request to the server, which runs `getServerSideProps`
+- 만약 이 페이지를 클라이언트에서 `next/link`나 `next/router`를 이용해서 페이지 전환을 하면 Next.js는 서버로 API 요청을 해서 `getServerSideProps`를 실행하게 됩니다.
 
 `getServerSideProps` returns JSON which will be used to render the page. All this work will be handled automatically by Next.js, so you don’t need to do anything extra as long as you have `getServerSideProps` defined.
+`getServerSideProps`는 페이지 렌더에 사용되는 JSON을 리턴합니다. 이 모든 과정은 Next.js에 의해서 자동으로 이뤄지기 때문에, 당신은 `getServerSideProps`를 정의하는 것 외에 다른 작업을 하지 않아도 됩니다.
 
 You can use the [next-code-elimination tool](https://next-code-elimination.vercel.app/) to verify what Next.js eliminates from the client-side bundle.
 
